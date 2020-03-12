@@ -293,6 +293,8 @@ class ModbusTransactionManager(object):
         else:
             read_min = b''
             total = expected_response_length
+        if expected_response_length is None:
+            expected_response_length = byte2int(read_min[0]) + byte2int(read_min[1])
         result = self.client.framer.recvPacket(expected_response_length)
         result = read_min + result
         actual = len(result)
